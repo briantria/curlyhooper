@@ -1,19 +1,30 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace CurlyHooper
 {
     public class BallHandler : MonoBehaviour
     {
         [SerializeField] private Transform _hand;
+        [SerializeField] private PickupTrigger _pickupTrigger;
+        [SerializeField] private float _pickupCooldownTime = 0.5f;
+
+        [Header("Dribble Settings")]
         [SerializeField] private float _bounceHeight = 0.4f;
         [SerializeField] private float _bounceSpeed = 12f;
 
-        [Space(8)]
-        [SerializeField] private PickupTrigger _pickupTrigger;
+        [Header("Shooting Settings")]
+        [SerializeField] private float _maxPower = 20f;
+        [SerializeField] private float _powerChargeSpeed = 15f;
+        [SerializeField] private float _upwardBias = 0.4f;
 
         private Ball _currentBall;
         private bool _isHoldingBall;
+        private bool _isCharging;
+        private float _currentPower;
+        private float _nextPickupTime;
 
+        #region Initialization
         private void OnEnable()
         {
             _pickupTrigger.OnZoneEntered += HandlePickupTrigger;
@@ -23,11 +34,12 @@ namespace CurlyHooper
         {
             _pickupTrigger.OnZoneEntered -= HandlePickupTrigger;
         }
+        #endregion
 
+        #region Pickup & Dribble Logic
         private void HandlePickupTrigger(Collider collider)
         {
-            Debug.Log($"on trigger enter: {collider.name}");
-            if (_isHoldingBall)
+            if (_isHoldingBall || Time.time < _nextPickupTime)
             {
                 return;
             }
@@ -47,34 +59,82 @@ namespace CurlyHooper
             _currentBall.SetPhysics(false);
         }
 
-        private void Update()
-        {
-            if (_isHoldingBall && _currentBall != null)
-            {
-                HandleFakeDribble();
-            }
-        }
-
         private void HandleFakeDribble()
         {
             float bounce = Mathf.Abs(Mathf.Sin(Time.time * _bounceSpeed)) * _bounceHeight;
             _currentBall.transform.position = _hand.position + new Vector3(0, -bounce, 0);
             _currentBall.transform.Rotate(Vector3.right, 180f * Time.deltaTime);
         }
+        #endregion
 
-        public void ReleaseBall(Vector3 force)
+        #region Shooting Logic
+        public void OnShoot(InputValue value)
         {
             if (!_isHoldingBall)
             {
                 return;
             }
 
+            if (value.isPressed)
+            {
+                StartCharging();
+            }
+            else
+            {
+                ReleaseBall();
+            }
+        }
+
+        private void StartCharging()
+        {
+            _isCharging = true;
+            _currentPower = 0f;
+            _currentBall.transform.position = _hand.position;
+        }
+
+        private void ChargePower()
+        {
+            _currentPower = Mathf.MoveTowards(_currentPower, _maxPower, _powerChargeSpeed * Time.deltaTime);
+        }
+
+        public void ReleaseBall()
+        {
+            if (!_isCharging)
+            {
+                return;
+            }
+
+            _isCharging = false;
+            _isHoldingBall = false;
+
+            // Calculate direction based on camera forward + slight upward arc
+            Vector3 shootDir = (Camera.main.transform.forward + (Vector3.up * _upwardBias)).normalized;
+
+            // Re-enable physics and apply force
             _currentBall.IsHeld = false;
             _currentBall.SetPhysics(true);
-            _currentBall.RigidBody.AddForce(force, ForceMode.Impulse);
+            _currentBall.RigidBody.AddForce(shootDir * _currentPower, ForceMode.Impulse);
 
+            _nextPickupTime = Time.time + _pickupCooldownTime;
             _currentBall = null;
-            _isHoldingBall = false;
+        }
+        #endregion
+
+        private void Update()
+        {
+            if (!_isHoldingBall || _currentBall == null)
+            {
+                return;
+            }
+
+            if (_isCharging)
+            {
+                ChargePower();
+            }
+            else
+            {
+                HandleFakeDribble();
+            }
         }
     }
 }
