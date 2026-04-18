@@ -40,14 +40,5 @@ namespace CurlyHooper
             _body.Rotate(Vector3.up * mouseX);
             _head.localRotation = Quaternion.Euler(_headRotation, 0f, 0f);
         }
-
-        void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
-            }
-        }
     }
 }
