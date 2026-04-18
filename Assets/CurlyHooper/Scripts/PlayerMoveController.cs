@@ -9,10 +9,12 @@ namespace CurlyHooper
         [SerializeField] private float _gravity = -9.81f;
         [SerializeField] private float _moveSpeed = 7f;
         [SerializeField] private float _jumpHeight = 2.0f;
+        [SerializeField] private float _airDrag = 0.5f;
 
         private CharacterController _controller;
         private Vector2 _moveInput;
-        private Vector3 _velocity;
+        private Vector3 _verticalVelocity;
+        private Vector3 _horizontalVelocity;
 
         void Awake()
         {
@@ -34,30 +36,34 @@ namespace CurlyHooper
         {
             if (context.performed && _controller.isGrounded)
             {
-                _velocity.y = Mathf.Sqrt(_jumpHeight * -2f * _gravity);
+                _verticalVelocity.y = Mathf.Sqrt(_jumpHeight * -2f * _gravity);
             }
         }
 
         private void ApplyMovement()
         {
-            if (!_controller.isGrounded)
+            if (_controller.isGrounded)
             {
-                return;
+                // When on the ground, WASD dictates the velocity
+                _horizontalVelocity = (transform.right * _moveInput.x + transform.forward * _moveInput.y) * _moveSpeed;
+            }
+            else
+            {
+                _horizontalVelocity = Vector3.Lerp(_horizontalVelocity, Vector3.zero, _airDrag * Time.deltaTime);
             }
 
-            Vector3 move = transform.right * _moveInput.x + transform.forward * _moveInput.y;
-            _controller.Move(move * _moveSpeed * Time.deltaTime);
+            _controller.Move(_horizontalVelocity * Time.deltaTime);
         }
 
         private void ApplyGravity()
         {
-            if (_controller.isGrounded && _velocity.y < 0)
+            if (_controller.isGrounded && _verticalVelocity.y < 0)
             {
-                _velocity.y = -2f;
+                _verticalVelocity.y = -2f;
             }
 
-            _velocity.y += _gravity * Time.deltaTime;
-            _controller.Move(_velocity * Time.deltaTime);
+            _verticalVelocity.y += _gravity * Time.deltaTime;
+            _controller.Move(_verticalVelocity * Time.deltaTime);
         }
     }
 }

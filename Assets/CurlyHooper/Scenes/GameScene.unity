@@ -1030,6 +1030,7 @@ MonoBehaviour:
   _gravity: -9.81
   _moveSpeed: 3
   _jumpHeight: 1
+  _airDrag: 1
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
