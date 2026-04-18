@@ -6,8 +6,9 @@ namespace CurlyHooper
     [RequireComponent(typeof(CharacterController))]
     public class PlayerMoveController : MonoBehaviour
     {
-        [SerializeField] private float _moveSpeed = 7f;
         [SerializeField] private float _gravity = -9.81f;
+        [SerializeField] private float _moveSpeed = 7f;
+        [SerializeField] private float _jumpHeight = 2.0f;
 
         private CharacterController _controller;
         private Vector2 _moveInput;
@@ -29,8 +30,21 @@ namespace CurlyHooper
             _moveInput = context.ReadValue<Vector2>();
         }
 
+        public void OnJump(InputAction.CallbackContext context)
+        {
+            if (context.performed && _controller.isGrounded)
+            {
+                _velocity.y = Mathf.Sqrt(_jumpHeight * -2f * _gravity);
+            }
+        }
+
         private void ApplyMovement()
         {
+            if (!_controller.isGrounded)
+            {
+                return;
+            }
+
             Vector3 move = transform.right * _moveInput.x + transform.forward * _moveInput.y;
             _controller.Move(move * _moveSpeed * Time.deltaTime);
         }
