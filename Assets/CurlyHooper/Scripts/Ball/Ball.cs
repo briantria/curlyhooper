@@ -20,5 +20,15 @@ namespace CurlyHooper
                 RigidBody.linearVelocity = Vector3.zero;
             }
         }
+
+        private void Update()
+        {
+            if (transform.position.y < -10f)
+            {
+                RigidBody.linearVelocity = Vector3.zero;
+                RigidBody.angularVelocity = Vector3.zero;
+                transform.position = new Vector3(0, 3, 0);
+            }
+        }
     }
 }

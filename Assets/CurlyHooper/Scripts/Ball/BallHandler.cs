@@ -7,6 +7,9 @@ namespace CurlyHooper
     {
         [SerializeField] private Transform _hand;
         [SerializeField] private PickupTrigger _pickupTrigger;
+        [SerializeField] private ShotCalculator _shotCalculator;
+
+        [Space(8)]
         [SerializeField] private float _pickupCooldownTime = 0.5f;
 
         [Header("Dribble Settings")]
@@ -107,10 +110,8 @@ namespace CurlyHooper
             _isCharging = false;
             _isHoldingBall = false;
 
-            // Calculate direction based on camera forward + slight upward arc
-            Vector3 shootDir = (Camera.main.transform.forward + (Vector3.up * _upwardBias)).normalized;
+            Vector3 shootDir = _shotCalculator.GetCalculatedShootDirection(transform);
 
-            // Re-enable physics and apply force
             _currentBall.IsHeld = false;
             _currentBall.SetPhysics(true);
             _currentBall.RigidBody.AddForce(shootDir * _currentPower, ForceMode.Impulse);
