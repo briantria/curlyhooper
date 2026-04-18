@@ -16,7 +16,7 @@ namespace CurlyHooper
         private Vector3 _verticalVelocity;
         private Vector3 _horizontalVelocity;
 
-        void Awake()
+        private void Awake()
         {
             _controller = GetComponent<CharacterController>();
         }
@@ -27,14 +27,14 @@ namespace CurlyHooper
             ApplyGravity();
         }
 
-        public void OnMove(InputAction.CallbackContext context)
+        public void OnMove(InputValue value)
         {
-            _moveInput = context.ReadValue<Vector2>();
+            _moveInput = value.Get<Vector2>();
         }
 
-        public void OnJump(InputAction.CallbackContext context)
+        public void OnJump(InputValue value)
         {
-            if (context.performed && _controller.isGrounded)
+            if (_controller.isGrounded)
             {
                 _verticalVelocity.y = Mathf.Sqrt(_jumpHeight * -2f * _gravity);
             }
