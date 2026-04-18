@@ -106,6 +106,7 @@ namespace CurlyHooper
             _currentBall.SetPhysics(true);
             _currentBall.RigidBody.AddForce(shootDir * _shotPowerData.CurrentPower, ForceMode.Impulse);
 
+            _shotPowerData.SetCurrentPower(0);
             _nextPickupTime = Time.time + _pickupCooldownTime;
             _currentBall = null;
         }
