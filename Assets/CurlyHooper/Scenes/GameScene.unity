@@ -7181,12 +7181,10 @@ MonoBehaviour:
   _hand: {fileID: 782190445}
   _pickupTrigger: {fileID: 1003489730}
   _shotCalculator: {fileID: 479819366}
+  _shotPowerData: {fileID: 11400000, guid: 81f8d6776eb2949ddb071e424e5bf2cb, type: 2}
   _pickupCooldownTime: 0.5
   _bounceHeight: 0.2
   _bounceSpeed: 4
-  _maxPower: 10
-  _powerChargeSpeed: 8
-  _upwardBias: 0.4
 --- !u!114 &479819366
 MonoBehaviour:
   m_ObjectHideFlags: 0

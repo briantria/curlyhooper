@@ -8,6 +8,7 @@ namespace CurlyHooper
         [SerializeField] private Transform _hand;
         [SerializeField] private PickupTrigger _pickupTrigger;
         [SerializeField] private ShotCalculator _shotCalculator;
+        [SerializeField] private ShotPowerData _shotPowerData;
 
         [Space(8)]
         [SerializeField] private float _pickupCooldownTime = 0.5f;
@@ -16,15 +17,9 @@ namespace CurlyHooper
         [SerializeField] private float _bounceHeight = 0.4f;
         [SerializeField] private float _bounceSpeed = 12f;
 
-        [Header("Shooting Settings")]
-        [SerializeField] private float _maxPower = 20f;
-        [SerializeField] private float _powerChargeSpeed = 15f;
-        [SerializeField] private float _upwardBias = 0.4f;
-
         private Ball _currentBall;
         private bool _isHoldingBall;
         private bool _isCharging;
-        private float _currentPower;
         private float _nextPickupTime;
 
         #region Initialization
@@ -91,13 +86,8 @@ namespace CurlyHooper
         private void StartCharging()
         {
             _isCharging = true;
-            _currentPower = 0f;
+            _shotPowerData.SetCurrentPower(0);
             _currentBall.transform.position = _hand.position;
-        }
-
-        private void ChargePower()
-        {
-            _currentPower = Mathf.MoveTowards(_currentPower, _maxPower, _powerChargeSpeed * Time.deltaTime);
         }
 
         public void ReleaseBall()
@@ -114,7 +104,7 @@ namespace CurlyHooper
 
             _currentBall.IsHeld = false;
             _currentBall.SetPhysics(true);
-            _currentBall.RigidBody.AddForce(shootDir * _currentPower, ForceMode.Impulse);
+            _currentBall.RigidBody.AddForce(shootDir * _shotPowerData.CurrentPower, ForceMode.Impulse);
 
             _nextPickupTime = Time.time + _pickupCooldownTime;
             _currentBall = null;
@@ -130,7 +120,7 @@ namespace CurlyHooper
 
             if (_isCharging)
             {
-                ChargePower();
+                _shotPowerData.ChargePower();
             }
             else
             {
