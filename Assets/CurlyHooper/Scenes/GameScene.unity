@@ -7199,8 +7199,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: curlyhooper::CurlyHooper.ShotCalculator
   _hoopTarget: {fileID: 43874957}
-  _baseArcBias: 0.5
-  _distanceArcMultiplier: 0.3
+  _baseArcBias: 0.1
+  _distanceArcMultiplier: 0.5
+  _aimAssistStrength: 0
 --- !u!1 &568747635
 GameObject:
   m_ObjectHideFlags: 0

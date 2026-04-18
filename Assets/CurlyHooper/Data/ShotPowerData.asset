@@ -12,6 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e47f9d5a1908f40beb89343bdb5b41eb, type: 3}
   m_Name: ShotPowerData
   m_EditorClassIdentifier: curlyhooper::CurlyHooper.ShotPowerData
-  _maxPower: 10
-  _powerChargeSpeed: 8
-  _upwardBias: 0.4
+  _maxPower: 8
+  _powerChargeSpeed: 10
