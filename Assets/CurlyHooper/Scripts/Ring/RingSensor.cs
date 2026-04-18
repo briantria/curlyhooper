@@ -6,6 +6,7 @@ namespace CurlyHooper
     public class RingSensor : MonoBehaviour
     {
         [SerializeField] private ScoreData _scoreData;
+        [SerializeField] private ParticleSystem _scoreParticles;
 
         private bool _didPassTopTrigger;
         private Coroutine _topTriggerRoutine;
@@ -61,7 +62,7 @@ namespace CurlyHooper
         {
             _didPassTopTrigger = false;
             _scoreData.AddScore();
-            Debug.Log("Clean Swish!");
+            _scoreParticles.Play();
         }
 
     }

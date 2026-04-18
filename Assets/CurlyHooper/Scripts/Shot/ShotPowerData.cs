@@ -8,7 +8,6 @@ namespace CurlyHooper
     {
         [SerializeField] private int _maxPower = 10;
         [SerializeField] private float _powerChargeSpeed = 8f;
-        [SerializeField] private float _upwardBias = 0.4f;
 
         [NonSerialized] private float _currentPower;
 
@@ -16,7 +15,6 @@ namespace CurlyHooper
 
         public int MaxPower => _maxPower;
         public float PowerChargeSpeed => _powerChargeSpeed;
-        public float UpwardBias => _upwardBias;
         public float CurrentPower => _currentPower;
 
         public void SetCurrentPower(float power)

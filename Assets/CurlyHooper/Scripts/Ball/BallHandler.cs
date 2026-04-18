@@ -100,7 +100,7 @@ namespace CurlyHooper
             _isCharging = false;
             _isHoldingBall = false;
 
-            Vector3 shootDir = _shotCalculator.GetCalculatedShootDirection(transform);
+            Vector3 shootDir = _shotCalculator.GetCalculatedShootDirection(transform, _currentBall.transform.position);
 
             _currentBall.IsHeld = false;
             _currentBall.SetPhysics(true);
