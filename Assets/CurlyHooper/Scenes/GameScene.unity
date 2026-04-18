@@ -870,6 +870,7 @@ GameObject:
   - component: {fileID: 479819362}
   - component: {fileID: 479819363}
   - component: {fileID: 479819364}
+  - component: {fileID: 479819365}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1106,6 +1107,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb4cf6e96feb94409ada86afb778205f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: curlyhooper::CurlyHooper.UIInputController
+--- !u!114 &479819365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 479819358}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc865b2d4b6a449f6ae2e3e4a2ba590d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: curlyhooper::CurlyHooper.BallHandler
+  _hand: {fileID: 782190445}
+  _bounceHeight: 0.2
+  _bounceSpeed: 4
+  _pickupTrigger: {fileID: 1003489730}
 --- !u!1 &782190444
 GameObject:
   m_ObjectHideFlags: 0
@@ -1131,7 +1148,7 @@ Transform:
   m_GameObject: {fileID: 782190444}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.4, y: 1.25, z: 0.5}
+  m_LocalPosition: {x: 0.35, y: 1.3, z: 0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1249,6 +1266,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1003489728}
   - component: {fileID: 1003489729}
+  - component: {fileID: 1003489730}
   m_Layer: 0
   m_Name: Pickup Zone
   m_TagString: Untagged
@@ -1265,7 +1283,7 @@ Transform:
   m_GameObject: {fileID: 1003489727}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1292,6 +1310,18 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1003489730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1003489727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 455fb95d459634d8eb04f74a54a920c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: curlyhooper::CurlyHooper.BallPickupTrigger
 --- !u!1 &1206492721
 GameObject:
   m_ObjectHideFlags: 0
@@ -1954,6 +1984,7 @@ GameObject:
   - component: {fileID: 443905580522285575}
   - component: {fileID: 2435856479136833230}
   - component: {fileID: 2435856479136833231}
+  - component: {fileID: 2435856479136833232}
   m_Layer: 0
   m_Name: Ball
   m_TagString: Untagged
@@ -2017,6 +2048,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
+--- !u!114 &2435856479136833232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2101472068132899794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6436dcdd05f4c4f50b188955a49ed370, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: curlyhooper::CurlyHooper.Ball
 --- !u!33 &2645889384627373160
 MeshFilter:
   m_ObjectHideFlags: 0
