@@ -28,9 +28,9 @@ namespace CurlyHooper
             Cursor.visible = false;
         }
 
-        public void OnLook(InputAction.CallbackContext context)
+        public void OnLook(InputValue value)
         {
-            Vector2 lookInput = context.ReadValue<Vector2>();
+            Vector2 lookInput = value.Get<Vector2>();
             float mouseX = lookInput.x * _lookSensitivity;
             float mouseY = lookInput.y * _lookSensitivity;
 
